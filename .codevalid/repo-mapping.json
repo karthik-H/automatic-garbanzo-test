@@ -1,6 +1,8 @@
 {
   "task-1": {
     "implementation": [],
-    "missing_implementations": []
+    "missing_implementations": [
+      "No requirement conditions were provided, and there are no source files in the repository (other than README.md and .codevalid/). Therefore, all requirement conditions are missing implementations."
+    ]
   }
 }
