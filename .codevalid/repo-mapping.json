@@ -11,6 +11,8 @@
         "type": "function"
       }
     ],
-    "missing_implementations": []
+    "missing_implementations": [
+      "Graceful handling and user-facing reporting of non-200 HTTP responses and connection errors in the main program (currently, errors are logged but not reported to the user in a user-friendly way)."
+    ]
   }
 }
