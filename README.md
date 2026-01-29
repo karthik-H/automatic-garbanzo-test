@@ -6,7 +6,7 @@ A production-ready Python application that retrieves user data from the JSONPlac
 
 - Fetches all users from [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)
 - Clean, modular, and testable codebase
-- Environment-based configuration
+- Environment-based configuration 
 - Robust error handling and logging
 
 ## Project Structure
