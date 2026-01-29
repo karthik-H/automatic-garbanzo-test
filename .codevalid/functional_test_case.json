@@ -111,7 +111,8 @@
           },
           "type": "negative"
         }
-      ]
+      ],
+      "test_path": ".codevalid/tests/task-1/main-function-python-entrypoint.py"
     }
   ],
   "component": [],
