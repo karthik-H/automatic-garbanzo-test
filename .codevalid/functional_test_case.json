@@ -4,79 +4,114 @@
       "implementation_id": "main-function-python-entrypoint",
       "test_cases": [
         {
-          "description": "Test that main successfully fetches and displays users when UserService returns a non-empty list.",
+          "description": "Test that main completes successfully when users are returned by UserService, and users are displayed.",
           "id": "main_positive_users_returned",
           "implementation_id": "main-function-python-entrypoint",
-          "name": "test_successful_user_fetch_and_display",
+          "name": "test_main_successful_execution_with_users",
           "test_setup": {
-            "given": "UserService.fetch_all_users returns a list of user objects; display_users and setup_logging are working normally.",
-            "then": "Users are fetched and displayed; no errors are logged.",
-            "when": "main is called"
+            "given": "Logging is set up. UserService.fetch_all_users returns a non-empty list of user objects.",
+            "then": "Users are fetched, display_users is called with users, no errors are logged.",
+            "when": "main() is called"
           },
           "type": "positive"
         },
         {
-          "description": "Test that main handles the case where UserService returns an empty list of users.",
+          "description": "Test that main completes successfully when UserService returns an empty user list.",
           "id": "main_positive_no_users",
           "implementation_id": "main-function-python-entrypoint",
-          "name": "test_successful_empty_user_list",
+          "name": "test_main_successful_execution_with_no_users",
           "test_setup": {
-            "given": "UserService.fetch_all_users returns an empty list; display_users can display empty lists.",
-            "then": "No users are displayed, but no errors are logged.",
-            "when": "main is called"
+            "given": "Logging is set up. UserService.fetch_all_users returns an empty list.",
+            "then": "Users are fetched as an empty list, display_users is called with empty list, no errors are logged.",
+            "when": "main() is called"
           },
-          "type": "edge"
+          "type": "positive"
         },
         {
-          "description": "Test error handling when UserService.fetch_all_users raises an exception.",
+          "description": "Test that main handles exceptions from UserService.fetch_all_users and logs the error.",
           "id": "main_negative_fetch_raises_exception",
           "implementation_id": "main-function-python-entrypoint",
-          "name": "test_fetch_users_raises_exception",
+          "name": "test_main_fetch_all_users_raises_exception",
           "test_setup": {
-            "given": "UserService.fetch_all_users raises an Exception with message 'Database unavailable'.",
-            "then": "Error 'Failed to retrieve users: Database unavailable' is logged; display_users is not called.",
-            "when": "main is called"
+            "given": "Logging is set up. UserService.fetch_all_users raises an Exception('database error').",
+            "then": "No users are returned, display_users is not called, log contains 'Failed to retrieve users: database error'.",
+            "when": "main() is called"
           },
           "type": "negative"
         },
         {
-          "description": "Test error handling when display_users raises an exception after successful user fetch.",
-          "id": "main_negative_display_raises_exception",
+          "description": "Test that main handles exceptions thrown by display_users and logs the error.",
+          "id": "main_negative_display_users_raises_exception",
           "implementation_id": "main-function-python-entrypoint",
-          "name": "test_display_users_raises_exception",
+          "name": "test_main_display_users_raises_exception",
           "test_setup": {
-            "given": "UserService.fetch_all_users returns a valid list, but display_users raises an Exception with message 'Display error'.",
-            "then": "Error 'Failed to retrieve users: Display error' is logged.",
-            "when": "main is called"
+            "given": "Logging is set up. UserService.fetch_all_users returns users. display_users raises an Exception('display error').",
+            "then": "Users are fetched, display_users is called and raises, log contains 'Failed to retrieve users: display error'.",
+            "when": "main() is called"
           },
           "type": "negative"
         },
         {
-          "description": "Test behavior when setup_logging itself raises an exception.",
-          "id": "main_negative_logging_setup_fails",
+          "description": "Test that main processes and displays users with special characters in their data.",
+          "id": "main_edge_users_with_special_characters",
           "implementation_id": "main-function-python-entrypoint",
-          "name": "test_setup_logging_raises_exception",
+          "name": "test_main_users_with_special_characters",
           "test_setup": {
-            "given": "setup_logging raises an Exception with message 'Logging setup failed'.",
-            "then": "Program terminates with 'Logging setup failed' exception; no further code is executed.",
-            "when": "main is called"
-          },
-          "type": "negative"
-        },
-        {
-          "description": "Test behavior when UserService instantiation fails.",
-          "id": "main_edge_user_service_instantiation_fails",
-          "implementation_id": "main-function-python-entrypoint",
-          "name": "test_user_service_constructor_raises_exception",
-          "test_setup": {
-            "given": "UserService constructor raises Exception with message 'Init error'.",
-            "then": "Program terminates with 'Init error' exception; no users are fetched or displayed.",
-            "when": "main is called"
+            "given": "Logging is set up. UserService.fetch_all_users returns users with special/unicode characters in names and emails.",
+            "then": "Users with special characters are fetched and passed to display_users, no errors are logged.",
+            "when": "main() is called"
           },
           "type": "edge"
+        },
+        {
+          "description": "Test that main handles the scenario where the user database is empty (no users exist).",
+          "id": "main_edge_empty_database",
+          "implementation_id": "main-function-python-entrypoint",
+          "name": "test_main_empty_database",
+          "test_setup": {
+            "given": "Logging is set up. UserService.fetch_all_users returns [].",
+            "then": "display_users is called with an empty list, no errors are logged.",
+            "when": "main() is called"
+          },
+          "type": "edge"
+        },
+        {
+          "description": "Test that main can handle and display a very large number of users efficiently without errors.",
+          "id": "main_edge_large_number_of_users",
+          "implementation_id": "main-function-python-entrypoint",
+          "name": "test_main_large_number_of_users",
+          "test_setup": {
+            "given": "Logging is set up. UserService.fetch_all_users returns a very large list (e.g., 10,000 users).",
+            "then": "All users are passed to display_users, no errors are logged, no performance issues occur.",
+            "when": "main() is called"
+          },
+          "type": "edge"
+        },
+        {
+          "description": "Test that main behaves appropriately if setup_logging raises an exception.",
+          "id": "main_negative_logging_setup_fails",
+          "implementation_id": "main-function-python-entrypoint",
+          "name": "test_main_logging_setup_fails",
+          "test_setup": {
+            "given": "setup_logging raises an Exception('logging setup failed').",
+            "then": "main terminates with an uncaught exception or logs the setup failure, no further steps are executed.",
+            "when": "main() is called"
+          },
+          "type": "negative"
+        },
+        {
+          "description": "Test that main handles exceptions raised during UserService instantiation.",
+          "id": "main_negative_userservice_init_fails",
+          "implementation_id": "main-function-python-entrypoint",
+          "name": "test_main_userservice_init_fails",
+          "test_setup": {
+            "given": "UserService constructor raises an Exception('init error').",
+            "then": "main terminates with an uncaught exception or logs the error, fetch_all_users is not called.",
+            "when": "main() is called"
+          },
+          "type": "negative"
         }
-      ],
-      "test_path": ".codevalid/tests/task-1/main-function-python-entrypoint.py"
+      ]
     }
   ],
   "component": [],
